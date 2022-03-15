@@ -50,6 +50,17 @@ public class OrderController : ControllerBase
 
         //Call CAS
 
+        /// 
+        /// result = CasService.Block(10);
+        /// if(result.IsSucceded){
+        ///     SendToOrderRouter();
+        /// }
+        /// else
+        /// {
+        ///     RevertAddRequestToDataBase();
+        /// }
+        ///
+
         //SendToOrderRouter
 
         return true;
