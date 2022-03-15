@@ -1,6 +1,6 @@
 ﻿namespace Oms.Models;
 
-public enum TransactionState
+public enum TransactionState : byte
 {
     Active = 0,
     Committed = 1,
