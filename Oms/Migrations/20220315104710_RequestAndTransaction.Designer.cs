@@ -11,7 +11,7 @@ using Oms.Context;
 namespace Oms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220315103753_RequestAndTransaction")]
+    [Migration("20220315104710_RequestAndTransaction")]
     partial class RequestAndTransaction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace Oms.Migrations
                     b.ToTable("Request", "Oms");
                 });
 
-            modelBuilder.Entity("Oms.Models.Transaction", b =>
+            modelBuilder.Entity("Oms.Models.TransactionalProcess", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace Oms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transaction", "Oms");
+                    b.ToTable("TransactionalProcess", "Oms");
                 });
 
             modelBuilder.Entity("Oms.Models.Request", b =>

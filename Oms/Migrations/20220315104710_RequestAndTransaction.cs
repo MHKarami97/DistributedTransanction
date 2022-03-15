@@ -30,7 +30,7 @@ namespace Oms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Transaction",
+                name: "TransactionalProcess",
                 schema: "Oms",
                 columns: table => new
                 {
@@ -41,7 +41,7 @@ namespace Oms.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transaction", x => x.Id);
+                    table.PrimaryKey("PK_TransactionalProcess", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +80,7 @@ namespace Oms.Migrations
                 schema: "Oms");
 
             migrationBuilder.DropTable(
-                name: "Transaction",
+                name: "TransactionalProcess",
                 schema: "Oms");
 
             migrationBuilder.DropTable(

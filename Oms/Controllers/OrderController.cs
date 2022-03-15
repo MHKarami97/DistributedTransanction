@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Oms.Context;
+using Oms.Models;
+using System.Transactions;
 
 namespace Oms.Controllers;
 
@@ -7,15 +10,48 @@ namespace Oms.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
+    private readonly ApplicationDbContext _context;
 
-    public OrderController(ILogger<OrderController> logger)
+    public OrderController(ILogger<OrderController> logger, ApplicationDbContext context)
     {
         _logger = logger;
+        _context = context;
     }
 
-    [HttpGet]
-    public bool Get()
+    [HttpPost]
+    public bool AddRequest(string productName, int quantiry, int price)
     {
+        var request = new Request
+        {
+            Price = price,
+            Quantity = quantiry,
+            ProductName = productName,
+            RequestState = RequestState.Pending,
+            RequestType = RequestType.Initial
+        };
+
+        var options = new TransactionOptions
+        {
+            IsolationLevel = IsolationLevel.ReadCommitted,
+        };
+
+        using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, options, TransactionScopeAsyncFlowOption.Enabled))
+        {
+            _context.Add(request);
+            _context.SaveChanges();
+            var transction = new TransactionalProcess
+            {
+                RequestId = request.Id,
+                TransactionState = TransactionState.Active
+            };
+            _context.Add(transction);
+            _context.SaveChanges();
+        }
+
+        //Call CAS
+
+        //SendToOrderRouter
+
         return true;
     }
 }

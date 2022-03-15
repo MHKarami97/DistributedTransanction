@@ -50,7 +50,7 @@ namespace Oms.Migrations
                     b.ToTable("Request", "Oms");
                 });
 
-            modelBuilder.Entity("Oms.Models.Transaction", b =>
+            modelBuilder.Entity("Oms.Models.TransactionalProcess", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace Oms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transaction", "Oms");
+                    b.ToTable("TransactionalProcess", "Oms");
                 });
 
             modelBuilder.Entity("Oms.Models.Request", b =>
