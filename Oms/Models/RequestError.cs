@@ -1,7 +1,6 @@
-﻿namespace Oms.Models
+﻿namespace Oms.Models;
+
+public class RequestError
 {
-    public class RequestError
-    {
-        public string? Message { get; set; }
-    }
+    public string? Message { get; set; }
 }

@@ -9,10 +9,11 @@ namespace Oms.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
-    private readonly ILogger<OrderController> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<OrderController> _logger;
 
-    public OrderController(ILogger<OrderController> logger, ApplicationDbContext context)
+    public OrderController(ILogger<OrderController> logger,
+        ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
@@ -35,31 +36,35 @@ public class OrderController : ControllerBase
             IsolationLevel = IsolationLevel.ReadCommitted,
         };
 
-        using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, options, TransactionScopeAsyncFlowOption.Enabled))
+        using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, options,
+                   TransactionScopeAsyncFlowOption.Enabled))
         {
             _context.Add(request);
             _context.SaveChanges();
-            var transction = new TransactionalProcess
+
+            var transaction = new TransactionalProcess
             {
                 RequestId = request.Id,
                 TransactionState = TransactionState.Active
             };
-            _context.Add(transction);
+
+            _context.Add(transaction);
+
             _context.SaveChanges();
         }
 
         //Call CAS
 
-        /// 
-        /// result = CasService.Block(10);
-        /// if(result.IsSucceded){
-        ///     SendToOrderRouter();
-        /// }
-        /// else
-        /// {
-        ///     RevertAddRequestToDataBase();
-        /// }
-        ///
+        /*
+         result = CasService.Block(10);
+         if(result.IsSucceded){
+             SendToOrderRouter();
+         }
+         else
+         {
+             RevertAddRequestToDataBase();
+         }
+        */
 
         //SendToOrderRouter
 

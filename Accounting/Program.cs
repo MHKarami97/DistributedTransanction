@@ -1,4 +1,4 @@
-using Oms.Context;
+using Accounting.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
