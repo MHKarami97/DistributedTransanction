@@ -13,8 +13,14 @@ public class MoneyController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public bool Get()
+    [HttpPost]
+    public bool Block()
+    {
+        return true;
+    }
+    
+    [HttpPost]
+    public bool UnBlock()
     {
         return true;
     }
