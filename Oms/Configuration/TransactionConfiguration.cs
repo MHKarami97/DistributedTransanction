@@ -4,11 +4,11 @@ using Oms.Models;
 
 namespace Oms.Configuration
 {
-    public class TransactionConfiguration : IEntityTypeConfiguration<TransactionalProcess>
+    public class TransactionConfiguration : IEntityTypeConfiguration<RequestContext>
     {
-        public void Configure(EntityTypeBuilder<TransactionalProcess> builder)
+        public void Configure(EntityTypeBuilder<RequestContext> builder)
         {
-            builder.ToTable(nameof(TransactionalProcess), nameof(Oms));
+            builder.ToTable(nameof(RequestContext), nameof(Oms));
         }
     }
 }

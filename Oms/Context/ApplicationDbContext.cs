@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Oms.Models;
+using Saga;
 using System.Reflection;
 
 namespace Oms.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IStateProvider<TransactionContext<RequestContext>>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

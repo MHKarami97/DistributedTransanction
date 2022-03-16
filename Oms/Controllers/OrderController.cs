@@ -39,13 +39,14 @@ public class OrderController : ControllerBase
         {
             _context.Add(request);
             _context.SaveChanges();
-            var transction = new TransactionalProcess
+            var transction = new RequestContext
             {
                 RequestId = request.Id,
                 TransactionState = TransactionState.Active
             };
             _context.Add(transction);
             _context.SaveChanges();
+            
         }
 
         //Call CAS
