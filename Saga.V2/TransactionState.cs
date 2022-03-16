@@ -1,4 +1,4 @@
-﻿namespace Saga;
+﻿namespace Saga.V2;
 
 public enum TransactionState : byte
 {

@@ -36,22 +36,9 @@ public class OrderController : ControllerBase
             IsolationLevel = IsolationLevel.ReadCommitted,
         };
 
-        using (var tx = new TransactionScope(TransactionScopeOption.RequiresNew, options,
+        using (var tx = new TransactionScope(TransactionScopeOption.Suppress, options,
                    TransactionScopeAsyncFlowOption.Enabled))
         {
-            _context.Add(request);
-            _context.SaveChanges();
-
-            var transaction = new TransactionalProcess
-            {
-                RequestId = request.Id,
-                TransactionState = TransactionState.Active
-            };
-
-            _context.Add(transaction);
-
-            _context.SaveChanges();
-            
         }
 
         //Call CAS

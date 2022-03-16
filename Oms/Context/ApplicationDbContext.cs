@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Oms.Context
 {
-    public class ApplicationDbContext : DbContext, IStateProvider<TransactionContext<RequestContext>>
+    public class ApplicationDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

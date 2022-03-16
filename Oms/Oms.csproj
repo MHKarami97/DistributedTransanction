@@ -9,6 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Include="..\.editorconfig" Link=".editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
           <PrivateAssets>all</PrivateAssets>
@@ -19,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Saga\Saga.csproj" />
+      <ProjectReference Include="..\Saga.V2\Saga.V2.csproj" />
     </ItemGroup>
 
 </Project>

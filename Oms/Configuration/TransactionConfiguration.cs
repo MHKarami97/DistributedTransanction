@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Oms.Models;
+using Oms.Repository;
 
 namespace Oms.Configuration
 {
-    public class TransactionConfiguration : IEntityTypeConfiguration<RequestContext>
+    public class DistributedTransactionModelConfiguration : IEntityTypeConfiguration<DistributedTransactionModel>
     {
-        public void Configure(EntityTypeBuilder<RequestContext> builder)
+        public void Configure(EntityTypeBuilder<DistributedTransactionModel> builder)
         {
-            builder.ToTable(nameof(RequestContext), nameof(Oms));
+            builder.ToTable(nameof(DistributedTransactionModel), nameof(Oms));
         }
     }
 }

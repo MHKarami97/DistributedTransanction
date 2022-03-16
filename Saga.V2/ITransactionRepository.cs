@@ -2,10 +2,10 @@
 
 namespace Saga
 {
-    public interface ICommandRepository
+    public interface ITransactionRepository
     {
         DistributedTransaction GetTransaction(int collaborationId);
         int SaveState(DistributedTransaction transaction);
-        int UpdateState(int collaborationId, ITransactionState state);
+        int UpdateState(int collaborationId, TransactionState state);
     }
 }
