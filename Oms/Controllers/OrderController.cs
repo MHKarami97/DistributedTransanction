@@ -51,4 +51,32 @@ public class OrderController : ControllerBase
 
         return true;
     }
+
+    [HttpPost("Undo/{collaborationId}")]
+    public async Task<bool> Undo(int collaborationId)
+    {
+        var commander = _transactionRepository.GetTransactionById(collaborationId);
+
+        var options = new TransactionOptions
+        {
+            IsolationLevel = IsolationLevel.ReadCommitted,
+        };
+
+        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                   TransactionScopeAsyncFlowOption.Enabled))
+        {   
+            try
+            {
+                await commander.Compensate();
+                tx.Complete();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

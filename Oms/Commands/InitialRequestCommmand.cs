@@ -56,7 +56,11 @@ namespace Oms.Commands
 
         public override async Task Undo()
         {
-            await HttpService.Post<bool>("http://localhost:5000/money/undo/" + CollaborationId);
+            var undoResult = await HttpService.Post<bool>("http://localhost:5000/money/undo/" + CollaborationId);
+
+            if (!undoResult) {
+                throw new Exception("Block Undo Failed");
+            }
         }
     }
 }

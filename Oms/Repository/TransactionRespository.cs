@@ -16,10 +16,20 @@ namespace Oms.Repository
             _serviceProvider = serviceProvider;
         }
 
-        public DistributedTransaction GetTransaction(int collaborationId)
+        public DistributedTransaction GetTransactionByCollaborationId(int collaborationId)
         {
             var transaction = _context.Set<DistributedTransactionModel>().FirstOrDefault(x => x.CollaborationId == collaborationId);
             if (transaction is null) 
+            {
+                throw new NullReferenceException("Transaction Not Found");
+            }
+            return transaction.Load(_serviceProvider, this);
+        }
+
+        public DistributedTransaction GetTransactionById(int id)
+        {
+            var transaction = _context.Set<DistributedTransactionModel>().Find(id);
+            if (transaction is null)
             {
                 throw new NullReferenceException("Transaction Not Found");
             }

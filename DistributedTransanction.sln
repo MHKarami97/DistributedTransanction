@@ -9,14 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackOffice", "BackOffice\Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounting", "Accounting\Accounting.csproj", "{96C651B8-AA36-4665-94A7-B03CEF98DFBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga", "Saga\Saga.csproj", "{75941B80-84ED-4792-9FDD-07F3D04856DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saga", "Saga\Saga.csproj", "{75941B80-84ED-4792-9FDD-07F3D04856DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.V2", "Saga.V2\Saga.V2.csproj", "{3666CC3A-773B-4970-838B-3E350CD2B2CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saga.V2", "Saga.V2\Saga.V2.csproj", "{3666CC3A-773B-4970-838B-3E350CD2B2CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4A3B2F1-BE67-4999-B935-C9301A15939A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecoveryAgent", "RecoveryAgent\RecoveryAgent.csproj", "{28FD3C1A-CDCD-402C-BE0D-4A0900FFEA70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{3666CC3A-773B-4970-838B-3E350CD2B2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3666CC3A-773B-4970-838B-3E350CD2B2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3666CC3A-773B-4970-838B-3E350CD2B2CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28FD3C1A-CDCD-402C-BE0D-4A0900FFEA70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28FD3C1A-CDCD-402C-BE0D-4A0900FFEA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28FD3C1A-CDCD-402C-BE0D-4A0900FFEA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28FD3C1A-CDCD-402C-BE0D-4A0900FFEA70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,7 @@ namespace Oms.Configuration
         public void Configure(EntityTypeBuilder<DistributedTransactionModel> builder)
         {
             builder.ToTable(nameof(DistributedTransactionModel), nameof(Oms));
+            builder.Property(c => c.CollaborationId).HasComputedColumnSql("[Id]");
         }
     }
 }

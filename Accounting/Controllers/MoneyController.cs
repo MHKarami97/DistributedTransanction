@@ -54,7 +54,7 @@ public class MoneyController : ControllerBase
     [HttpPost("Undo/{collaborationId}")]
     public async Task<bool> Undo(int collaborationId)
     {
-        var tx = _transactionRepository.GetTransaction(collaborationId);
+        var tx = _transactionRepository.GetTransactionByCollaborationId(collaborationId);
 
         try
         {
