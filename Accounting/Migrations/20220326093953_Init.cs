@@ -5,22 +5,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Accounting.Migrations
 {
-    public partial class Block : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Cas");
+                name: "Accounting");
 
             migrationBuilder.CreateTable(
                 name: "Block",
-                schema: "Cas",
+                schema: "Accounting",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    Amuont = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
                     CreateDatetime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -29,19 +29,20 @@ namespace Accounting.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionalProcess",
-                schema: "Cas",
+                name: "DistributedTransactionModel",
+                schema: "Accounting",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TracingCode = table.Column<int>(type: "int", nullable: false),
-                    BlockId = table.Column<int>(type: "int", nullable: false),
-                    TransactionState = table.Column<byte>(type: "tinyint", nullable: false)
+                    CollaborationId = table.Column<int>(type: "int", nullable: false),
+                    CommandType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommandBody = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransactionalProcess", x => x.Id);
+                    table.PrimaryKey("PK_DistributedTransactionModel", x => x.Id);
                 });
         }
 
@@ -49,11 +50,11 @@ namespace Accounting.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Block",
-                schema: "Cas");
+                schema: "Accounting");
 
             migrationBuilder.DropTable(
-                name: "TransactionalProcess",
-                schema: "Cas");
+                name: "DistributedTransactionModel",
+                schema: "Accounting");
         }
     }
 }

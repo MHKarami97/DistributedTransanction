@@ -1,14 +1,15 @@
-﻿using Accounting.Models;
+﻿using Accounting.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Saga.V2;
 
-namespace Accounting.Configuration
+namespace Oms.Configuration
 {
-    public class TransactionConfiguration : IEntityTypeConfiguration<TransactionalProcess>
+    public class DistributedTransactionModelConfiguration : IEntityTypeConfiguration<DistributedTransactionModel>
     {
-        public void Configure(EntityTypeBuilder<TransactionalProcess> builder)
+        public void Configure(EntityTypeBuilder<DistributedTransactionModel> builder)
         {
-            builder.ToTable(nameof(TransactionalProcess), "Cas");
+            builder.ToTable(nameof(DistributedTransactionModel), nameof(Accounting));
         }
     }
 }

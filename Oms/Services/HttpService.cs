@@ -1,10 +1,17 @@
-﻿namespace Oms.Services
+﻿using Flurl.Http;
+
+namespace Oms.Services
 {
-    public class HttpService
+    public static class HttpService
     {
-        internal void Post(string v, object p)
+        static internal Task<T> Post<T>(string url, object? body = null) 
         {
-            throw new NotImplementedException();
+            if (body is null) 
+            {
+                return url.PostAsync().ReceiveJson<T>();
+            }
+
+            return url.PostJsonAsync(body).ReceiveJson<T>();
         }
     }
 }

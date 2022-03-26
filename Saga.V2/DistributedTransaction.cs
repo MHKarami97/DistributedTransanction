@@ -5,22 +5,31 @@ namespace Saga.V2
     public class DistributedTransaction
     {
         public int CollaborationId { get; private set; }
-        public ITransationalCommand Command { get; private set; }
+        public TransationalCommand Command { get; private set; }
         private readonly ITransactionRepository _repository;
 
         public TransactionState State { get; internal set; } = TransactionState.Active;
 
-        public DistributedTransaction(ITransationalCommand command, ITransactionRepository repository)
+        public DistributedTransaction(TransationalCommand command, ITransactionRepository repository)
         {
-            Command = command;
             _repository = repository;
+            Command = command;
             Init();
         }
 
-        public DistributedTransaction(ITransationalCommand command, ITransactionRepository repository, int collaborationId)
+        public DistributedTransaction(TransationalCommand command, ITransactionRepository repository, int collaborationId)
         {
-            Command = command;
             _repository = repository;
+            Command = command;
+            CollaborationId = collaborationId;
+            Command.CollaborationId = collaborationId;
+            _repository.SaveState(this);
+        }
+
+        private DistributedTransaction(int collaborationId, TransationalCommand command, ITransactionRepository repository)
+        {
+            _repository = repository;
+            Command = command;
             CollaborationId = collaborationId;
             Command.CollaborationId = collaborationId;
         }
@@ -31,7 +40,12 @@ namespace Saga.V2
             Command.CollaborationId = CollaborationId;
         }
 
-        public async Task Begin()
+        public static DistributedTransaction Load(TransationalCommand command, ITransactionRepository repository, int collaborationId) 
+        {
+            return new DistributedTransaction(collaborationId, command, repository);
+        }
+
+        public async Task Execute()
         {
             try
             {
@@ -46,6 +60,27 @@ namespace Saga.V2
                 using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled)) 
                 {
                     _repository.UpdateState(CollaborationId, State);
+                    tx.Complete();
+                }
+                throw;
+            }
+        }
+
+        public async Task Compensate() 
+        {
+            try
+            {
+                await Command.Undo();
+                State = TransactionState.Aborted;
+                _repository.UpdateState(CollaborationId, State);
+            }
+            catch
+            {
+                using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    State = TransactionState.Failed;
+                    _repository.UpdateState(CollaborationId, State);
+                    tx.Complete();
                 }
                 throw;
             }

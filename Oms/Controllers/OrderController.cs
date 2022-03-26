@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Oms.Context;
-using Oms.Models;
+using Oms.Commands;
+using Saga;
+using Saga.V2;
 using System.Transactions;
 
 namespace Oms.Controllers;
@@ -9,52 +10,44 @@ namespace Oms.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly ITransactionRepository _transactionRepository;
     private readonly ILogger<OrderController> _logger;
 
-    public OrderController(ILogger<OrderController> logger,
-        ApplicationDbContext context)
+    public OrderController(ILogger<OrderController> logger
+        , IServiceProvider serviceProvider
+        , ITransactionRepository transactionRepository)
     {
         _logger = logger;
-        _context = context;
+        _serviceProvider = serviceProvider;
+        _transactionRepository = transactionRepository;
     }
 
     [HttpPost]
-    public bool AddRequest(string productName, int quantiry, int price)
+    public async Task<bool> Make(string productName, int quantiry, int price, int customerId)
     {
-        var request = new Request
-        {
-            Price = price,
-            Quantity = quantiry,
-            ProductName = productName,
-            RequestState = RequestState.Pending,
-            RequestType = RequestType.Initial
-        };
+        var command = new InitialRequestCommmand(productName, quantiry, price, customerId, _serviceProvider);
 
         var options = new TransactionOptions
         {
             IsolationLevel = IsolationLevel.ReadCommitted,
         };
 
-        using (var tx = new TransactionScope(TransactionScopeOption.Suppress, options,
+        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
         {
+            var commander = new DistributedTransaction(command, _transactionRepository);
+            try
+            {
+                await commander.Execute();
+                tx.Complete();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return false;
+            }
         }
-
-        //Call CAS
-
-        /*
-         result = CasService.Block(10);
-         if(result.IsSucceded){
-             SendToOrderRouter();
-         }
-         else
-         {
-             RevertAddRequestToDataBase();
-         }
-        */
-
-        //SendToOrderRouter
 
         return true;
     }

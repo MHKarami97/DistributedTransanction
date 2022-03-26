@@ -1,9 +1,8 @@
-﻿using Oms.Context;
+﻿using Accounting.Context;
 using Saga;
 using Saga.V2;
-using System.Text.Json;
 
-namespace Oms.Repository
+namespace Accounting.Repository
 {
     public class TransactionRespository : ITransactionRepository
     {
@@ -19,10 +18,12 @@ namespace Oms.Repository
         public DistributedTransaction GetTransaction(int collaborationId)
         {
             var transaction = _context.Set<DistributedTransactionModel>().FirstOrDefault(x => x.CollaborationId == collaborationId);
-            if (transaction is null) 
+
+            if (transaction is null)
             {
                 throw new NullReferenceException("Transaction Not Found");
             }
+            var commandType = Type.GetType(transaction.CommandType);
             return transaction.Load(_serviceProvider, this);
         }
 

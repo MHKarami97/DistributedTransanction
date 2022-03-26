@@ -1,5 +1,6 @@
 using Oms.Context;
-using Oms.Services;
+using Oms.Repository;
+using Saga;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,18 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddScoped<HttpService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRespository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 

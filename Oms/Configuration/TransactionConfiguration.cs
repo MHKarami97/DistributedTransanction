@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Oms.Repository;
+using Saga.V2;
 
 namespace Oms.Configuration
 {

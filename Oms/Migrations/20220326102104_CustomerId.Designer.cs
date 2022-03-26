@@ -11,8 +11,8 @@ using Oms.Context;
 namespace Oms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220315104710_RequestAndTransaction")]
-    partial class RequestAndTransaction
+    [Migration("20220326102104_CustomerId")]
+    partial class CustomerId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace Oms.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -52,7 +55,7 @@ namespace Oms.Migrations
                     b.ToTable("Request", "Oms");
                 });
 
-            modelBuilder.Entity("Oms.Models.TransactionalProcess", b =>
+            modelBuilder.Entity("Oms.Repository.DistributedTransactionModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,15 +63,23 @@ namespace Oms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("RequestId")
+                    b.Property<int>("CollaborationId")
                         .HasColumnType("int");
 
-                    b.Property<byte>("TransactionState")
+                    b.Property<string>("CommandBody")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CommandType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionalProcess", "Oms");
+                    b.ToTable("DistributedTransactionModel", "Oms");
                 });
 
             modelBuilder.Entity("Oms.Models.Request", b =>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Accounting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220315111128_Block")]
-    partial class Block
+    [Migration("20220326093953_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,7 +32,7 @@ namespace Accounting.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Amuont")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDatetime")
@@ -43,10 +43,10 @@ namespace Accounting.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Block", "Cas");
+                    b.ToTable("Block", "Accounting");
                 });
 
-            modelBuilder.Entity("Accounting.Models.TransactionalProcess", b =>
+            modelBuilder.Entity("Accounting.Repository.DistributedTransactionModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,18 +54,23 @@ namespace Accounting.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BlockId")
+                    b.Property<int>("CollaborationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TracingCode")
-                        .HasColumnType("int");
+                    b.Property<string>("CommandBody")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("TransactionState")
+                    b.Property<string>("CommandType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionalProcess", "Cas");
+                    b.ToTable("DistributedTransactionModel", "Accounting");
                 });
 #pragma warning restore 612, 618
         }

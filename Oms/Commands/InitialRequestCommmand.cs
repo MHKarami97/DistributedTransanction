@@ -5,22 +5,23 @@ using Saga.V2;
 
 namespace Oms.Commands
 {
-    public class InitialRequestCommmand : ITransationalCommand
+    public class InitialRequestCommmand : TransationalCommand
     {
-        public InitialRequestCommmand(string productName, int quantity, int price)
+        public InitialRequestCommmand(string productName, int quantity, int price, int customerId, IServiceProvider serviceProvider)
         {
             ProductName = productName;
             Quantity = quantity;
             Price = price;
+            CustomerId = customerId;
+            ServiceProvider = serviceProvider;
         }
 
         public int Price { get; }
+        public int CustomerId { get; }
         public int Quantity { get; }
         public string ProductName { get; }
-        public int CollaborationId { get; set; }
-        public IServiceProvider ServiceProvider { get; set; }
 
-        public Task Do()
+        public override async Task Do()
         {
             var request = new Request
             {
@@ -35,30 +36,27 @@ namespace Oms.Commands
             context.Add(request);
             context.SaveChanges();
 
-            var httpService = ServiceProvider.GetRequiredService<HttpService>();
-            httpService.Post("cas/block", new
+            var result = await HttpService.Post<bool>("http://localhost:5000/money/block", new
             {
+                CustomerId,
                 CollaborationId,
-                Amount = Price * Quantity
+                Amount = Price * Quantity,
             });
+
+            if (!result)
+            {
+                throw new Exception("BlockFailed");
+            }
 
             request.RequestState = RequestState.Completed;
 
             context.Update(request);
             context.SaveChanges();
-
-            return Task.CompletedTask;
         }
 
-        public Task Undo()
+        public override async Task Undo()
         {
-            var httpService = ServiceProvider.GetRequiredService<HttpService>();
-            httpService.Post("cas/unblock", new
-            {
-                CollaborationId,
-            });
-
-            return Task.CompletedTask;
+            await HttpService.Post<bool>("http://localhost:5000/money/undo/" + CollaborationId);
         }
     }
 }

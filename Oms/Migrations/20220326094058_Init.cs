@@ -4,12 +4,29 @@
 
 namespace Oms.Migrations
 {
-    public partial class RequestAndTransaction : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "Oms");
+
+            migrationBuilder.CreateTable(
+                name: "DistributedTransactionModel",
+                schema: "Oms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CollaborationId = table.Column<int>(type: "int", nullable: false),
+                    CommandType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommandBody = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistributedTransactionModel", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Request",
@@ -27,21 +44,6 @@ namespace Oms.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Request", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TransactionalProcess",
-                schema: "Oms",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RequestId = table.Column<int>(type: "int", nullable: false),
-                    TransactionState = table.Column<byte>(type: "tinyint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TransactionalProcess", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,11 +78,11 @@ namespace Oms.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RequestError",
+                name: "DistributedTransactionModel",
                 schema: "Oms");
 
             migrationBuilder.DropTable(
-                name: "TransactionalProcess",
+                name: "RequestError",
                 schema: "Oms");
 
             migrationBuilder.DropTable(
