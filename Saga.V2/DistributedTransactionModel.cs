@@ -11,6 +11,7 @@ namespace Saga.V2
             CommandType = transaction.Command.GetType().AssemblyQualifiedName ?? "";
             CommandBody = JsonSerializer.Serialize((object)transaction.Command);
             State = transaction.State;
+            StartDateTime = DateTime.Now;
         }
 
         public int Id { get; set; }
