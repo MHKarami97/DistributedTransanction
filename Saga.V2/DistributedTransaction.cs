@@ -40,7 +40,7 @@ namespace Saga.V2
             Command.CollaborationId = CollaborationId;
         }
 
-        public static DistributedTransaction Load(TransationalCommand command, ITransactionRepository repository, int collaborationId) 
+        public static DistributedTransaction Load(TransationalCommand command, ITransactionRepository repository, int collaborationId)
         {
             return new DistributedTransaction(collaborationId, command, repository);
         }
@@ -57,7 +57,7 @@ namespace Saga.V2
             {
                 await Command.Undo();
                 State = TransactionState.Aborted;
-                using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled)) 
+                using (var tx = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
                 {
                     _repository.UpdateState(CollaborationId, State);
                     tx.Complete();
@@ -66,8 +66,11 @@ namespace Saga.V2
             }
         }
 
-        public async Task Compensate() 
+        public async Task Compensate()
         {
+            if (State == TransactionState.Committed || State == TransactionState.Aborted)
+                return;
+
             try
             {
                 await Command.Undo();
