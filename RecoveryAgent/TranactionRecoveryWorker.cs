@@ -39,5 +39,11 @@ namespace RecoveryAgent
                     .ConfigureAwait(false);
             }
         }
+
+        public override void Dispose()
+        {
+            _timer.Dispose();
+            base.Dispose();
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Accounting.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=Cas;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server =.; Database = Cas; User Id = sa; pwd = 1234");
             base.OnConfiguring(optionsBuilder);
         }
 
