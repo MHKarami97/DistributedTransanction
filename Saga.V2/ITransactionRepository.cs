@@ -1,6 +1,4 @@
-﻿using Saga.V2;
-
-namespace Saga
+﻿namespace Saga.V2
 {
     public interface ITransactionRepository
     {

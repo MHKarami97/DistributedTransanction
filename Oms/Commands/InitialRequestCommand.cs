@@ -5,9 +5,9 @@ using Saga.V2;
 
 namespace Oms.Commands
 {
-    public class InitialRequestCommmand : TransationalCommand
+    public class InitialRequestCommand : TransactionalCommand
     {
-        public InitialRequestCommmand(string productName, int quantity, int price, int customerId, IServiceProvider serviceProvider)
+        public InitialRequestCommand(string productName, int quantity, int price, int customerId, IServiceProvider serviceProvider)
         {
             ProductName = productName;
             Quantity = quantity;
@@ -34,7 +34,7 @@ namespace Oms.Commands
             
             var context = ServiceProvider.GetRequiredService<ApplicationDbContext>();
             context.Add(request);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
             var result = await HttpService.Post<bool>("http://localhost:5000/money/block", new
             {
@@ -51,7 +51,7 @@ namespace Oms.Commands
             request.RequestState = RequestState.Completed;
 
             context.Update(request);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public override async Task Undo()
