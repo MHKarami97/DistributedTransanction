@@ -12,14 +12,16 @@ namespace Accounting.Controllers;
 public class MoneyController : ControllerBase
 {
     private readonly ILogger<MoneyController> _logger;
-    private readonly ITransactionRepository _transactionRepository;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ITransactionRepository _transactionRepository;
 
-    public MoneyController(ILogger<MoneyController> logger, ITransactionRepository transactionRepository, IServiceProvider serviceProvider)
+    public MoneyController(ILogger<MoneyController> logger,
+        ITransactionRepository transactionRepository,
+        IServiceProvider serviceProvider)
     {
         _logger = logger;
-        _transactionRepository = transactionRepository;
         _serviceProvider = serviceProvider;
+        _transactionRepository = transactionRepository;
     }
 
     [HttpPost("Block")]
@@ -29,21 +31,24 @@ public class MoneyController : ControllerBase
 
         var options = new TransactionOptions
         {
-            IsolationLevel = IsolationLevel.ReadCommitted,
+            IsolationLevel = IsolationLevel.ReadCommitted
         };
 
         using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
         {
             var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
+
             try
             {
                 await commander.Execute();
+
                 tx.Complete();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", model.CollaborationId);
+
                 return false;
             }
         }
@@ -62,7 +67,8 @@ public class MoneyController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", collaborationId);
+
             return false;
         }
 

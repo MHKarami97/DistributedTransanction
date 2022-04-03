@@ -4,7 +4,6 @@ namespace Saga.V2
 {
     public class DistributedTransactionModel
     {
-        private DistributedTransactionModel() { }
         public DistributedTransactionModel(DistributedTransaction transaction)
         {
             CollaborationId = transaction.CollaborationId;
@@ -30,7 +29,7 @@ namespace Saga.V2
                 throw new Exception("Command Not Found");
             }
 
-            if (JsonSerializer.Deserialize(CommandBody, commandType) is TransationalCommand command)
+            if (JsonSerializer.Deserialize(CommandBody, commandType) is TransactionalCommand command)
             {
                 command.ServiceProvider = serviceProvider;
                 var distributedTransaction = DistributedTransaction.Load(command, repository, CollaborationId);

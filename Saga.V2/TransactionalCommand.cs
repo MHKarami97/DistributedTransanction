@@ -2,7 +2,7 @@
 
 namespace Saga.V2
 {
-    public abstract class TransationalCommand
+    public abstract class TransactionalCommand
     {
         public int CollaborationId { get; set; }
 

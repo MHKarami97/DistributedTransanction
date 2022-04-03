@@ -9,7 +9,7 @@ namespace Saga
         private readonly ILogger<Saga<T>> _logger;
         private readonly LinkedList<IMicroTransaction<T>> _steps;
         private readonly TransactionContext<T> _initialContext;
-        private bool isCompleted { get; set; }
+        private bool IsCompleted { get; set; }
 
         public Saga(IStateProvider<T> stateProvider, ILogger<Saga<T>> logger, T initialContext)
         {
@@ -24,7 +24,7 @@ namespace Saga
             };
             _stateProvider.SaveContext(context);
             _initialContext = context;
-            isCompleted = false;
+            IsCompleted = false;
         }
 
         public void AddStep(IMicroTransaction<T> step) => _steps.AddLast(step);
@@ -32,6 +32,7 @@ namespace Saga
         public async Task Complete()
         {
             var context = _stateProvider.GetContext(_initialContext.TracingCode);
+
             using (var tx = new TransactionScope())
             {
                 for (var step = _steps.First; step != null; step = step.Next)
@@ -49,7 +50,7 @@ namespace Saga
 
                 context.State = TransactionState.Committed;
                 _stateProvider.SaveContext(context);
-                isCompleted = true;
+                IsCompleted = true;
 
                 tx.Complete();
             }
@@ -83,7 +84,7 @@ namespace Saga
 
         public void Dispose()
         {
-            if (!isCompleted)
+            if (!IsCompleted)
             {
                 RollBack();
             }
