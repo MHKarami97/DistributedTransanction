@@ -44,7 +44,7 @@ using (var client = new FabricClient(clusterConnectionString))
     // Passed-in cluster health policy is used to validate health of the cluster in between Chaos iterations. 
     var clusterHealthPolicy = new ClusterHealthPolicy
     {
-        ConsiderWarningAsError = false,\
+        ConsiderWarningAsError = false,
         MaxPercentUnhealthyApplications = 100,
         MaxPercentUnhealthyNodes = 100
     };
