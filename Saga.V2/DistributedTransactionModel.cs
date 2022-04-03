@@ -4,6 +4,10 @@ namespace Saga.V2
 {
     public class DistributedTransactionModel
     {
+        private DistributedTransactionModel()
+        {
+        }
+
         public DistributedTransactionModel(DistributedTransaction transaction)
         {
             CollaborationId = transaction.CollaborationId;

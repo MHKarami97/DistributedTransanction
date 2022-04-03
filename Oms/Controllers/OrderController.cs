@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Oms.Commands;
+using Oms.Models;
 using Saga.V2;
 using System.Transactions;
 
@@ -23,9 +24,9 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<bool> Make(string productName, int quantity, int price, int customerId)
+    public async Task<bool> Make(MakeModel model)
     {
-        var command = new InitialRequestCommand(productName, quantity, price, customerId, _serviceProvider);
+        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId, _serviceProvider) ;
 
         var options = new TransactionOptions
         {
@@ -44,7 +45,7 @@ public class OrderController : ControllerBase
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", productName);
+                _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
 
                 return false;
             }
