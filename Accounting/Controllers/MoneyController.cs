@@ -41,7 +41,6 @@ public class MoneyController : ControllerBase
             try
             {
                 await commander.Execute();
-
                 tx.Complete();
             }
             catch (Exception ex)
@@ -51,6 +50,8 @@ public class MoneyController : ControllerBase
                 return false;
             }
         }
+
+        Thread.Sleep(3000);
 
         return true;
     }
@@ -70,6 +71,8 @@ public class MoneyController : ControllerBase
 
             return false;
         }
+
+        Thread.Sleep(3000);
 
         return true;
     }
