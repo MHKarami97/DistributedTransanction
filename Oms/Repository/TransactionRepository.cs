@@ -1,16 +1,14 @@
 ﻿using Oms.Context;
-using Saga;
 using Saga.V2;
-using System.Text.Json;
 
 namespace Oms.Repository
 {
-    public class TransactionRespository : ITransactionRepository
+    public class TransactionRepository : ITransactionRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IServiceProvider _serviceProvider;
 
-        public TransactionRespository(ApplicationDbContext context, IServiceProvider serviceProvider)
+        public TransactionRepository(ApplicationDbContext context, IServiceProvider serviceProvider)
         {
             _context = context;
             _serviceProvider = serviceProvider;
@@ -18,21 +16,26 @@ namespace Oms.Repository
 
         public DistributedTransaction GetTransactionByCollaborationId(int collaborationId)
         {
-            var transaction = _context.Set<DistributedTransactionModel>().FirstOrDefault(x => x.CollaborationId == collaborationId);
-            if (transaction is null) 
+            var transaction = _context.Set<DistributedTransactionModel>()
+                .FirstOrDefault(x => x.CollaborationId == collaborationId);
+
+            if (transaction is null)
             {
                 throw new NullReferenceException("Transaction Not Found");
             }
+
             return transaction.Load(_serviceProvider, this);
         }
 
         public DistributedTransaction GetTransactionById(int id)
         {
             var transaction = _context.Set<DistributedTransactionModel>().Find(id);
+
             if (transaction is null)
             {
                 throw new NullReferenceException("Transaction Not Found");
             }
+
             return transaction.Load(_serviceProvider, this);
         }
 
@@ -46,7 +49,8 @@ namespace Oms.Repository
 
         public int UpdateState(int collaborationId, TransactionState state)
         {
-            var transaction = _context.Set<DistributedTransactionModel>().FirstOrDefault(x => x.CollaborationId == collaborationId);
+            var transaction = _context.Set<DistributedTransactionModel>()
+                .FirstOrDefault(x => x.CollaborationId == collaborationId);
 
             if (transaction == null)
             {

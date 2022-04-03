@@ -4,7 +4,7 @@ using Saga.V2;
 
 namespace Accounting.Commands
 {
-    class BlockCommand : TransationalCommand
+    class BlockCommand : TransactionalCommand
     {
         public int BlockId { get; set; }
         public int CustomerId { get; }
@@ -17,7 +17,7 @@ namespace Accounting.Commands
             Amount = amount;
         }
 
-        public async override Task Do()
+        public override async Task Do()
         {
             var context = ServiceProvider.GetRequiredService<ApplicationDbContext>();
 

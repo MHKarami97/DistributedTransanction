@@ -4,14 +4,9 @@ namespace Oms.Services
 {
     public static class HttpService
     {
-        static public Task<T> Post<T>(string url, object? body = null) 
+        public static Task<T> Post<T>(string url, object? body = null)
         {
-            if (body is null) 
-            {
-                return url.PostAsync().ReceiveJson<T>();
-            }
-
-            return url.PostJsonAsync(body).ReceiveJson<T>();
+            return body is null ? url.PostAsync().ReceiveJson<T>() : url.PostJsonAsync(body).ReceiveJson<T>();
         }
     }
 }

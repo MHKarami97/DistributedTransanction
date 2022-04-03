@@ -1,9 +1,8 @@
-﻿using Accounting.Repository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Saga.V2;
 
-namespace Oms.Configuration
+namespace Accounting.Configuration
 {
     public class DistributedTransactionModelConfiguration : IEntityTypeConfiguration<DistributedTransactionModel>
     {
