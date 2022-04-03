@@ -14,16 +14,16 @@ using (var client = new FabricClient(clusterConnectionString))
     // entities. 
     // During validation if a cluster entity is not stable and healthy within
     // MaxClusterStabilizationTimeoutInSeconds, Chaos generates a validation failed event.
-    var maxClusterStabilizationTimeout = TimeSpan.FromSeconds(20.0);
+    var maxClusterStabilizationTimeout = TimeSpan.FromSeconds(30.0);
 
-    var timeToRun = TimeSpan.FromMinutes(10.0);
+    var timeToRun = TimeSpan.FromMinutes(60.0);
 
     // MaxConcurrentFaults is the maximum number of concurrent faults induced per iteration. 
     // Chaos executes in iterations and two consecutive iterations are separated by a validation phase.
     // The higher the concurrency, the more aggressive the injection of faults -- inducing more complex
     // series of states to uncover bugs.
     // The recommendation is to start with a value of 2 or 3 and to exercise caution while moving up.
-    var maxConcurrentFaults = 100;
+    var maxConcurrentFaults = 3;
 
     // Describes a map, which is a collection of (string, string) type key-value pairs. The map can be
     // used to record information about the Chaos run. There cannot be more than 100 such pairs and
@@ -33,7 +33,7 @@ using (var client = new FabricClient(clusterConnectionString))
 
     // Time-separation (in seconds) between two consecutive iterations of Chaos. The larger the value, the
     // lower the fault injection rate.
-    var waitTimeBetweenIterations = TimeSpan.FromSeconds(1);
+    var waitTimeBetweenIterations = TimeSpan.FromSeconds(10);
 
     // Wait time (in seconds) between consecutive faults within a single iteration.
     // The larger the value, the lower the overlapping between faults and the simpler the sequence of
@@ -44,7 +44,7 @@ using (var client = new FabricClient(clusterConnectionString))
     // Passed-in cluster health policy is used to validate health of the cluster in between Chaos iterations. 
     var clusterHealthPolicy = new ClusterHealthPolicy
     {
-        ConsiderWarningAsError = false,
+        ConsiderWarningAsError = false,\
         MaxPercentUnhealthyApplications = 100,
         MaxPercentUnhealthyNodes = 100
     };
@@ -70,15 +70,13 @@ using (var client = new FabricClient(clusterConnectionString))
     var parameters = new ChaosParameters(
         maxClusterStabilizationTimeout,
         maxConcurrentFaults,
-        false, /* EnableMoveReplicaFault */
+        true, /* EnableMoveReplicaFault */
         timeToRun,
         startContext,
         waitTimeBetweenIterations,
         waitTimeBetweenFaults,
         clusterHealthPolicy)
     { ChaosTargetFilter = chaosTargetFilter };
-
-    await client.TestManager.StopChaosAsync();
 
     try
     {

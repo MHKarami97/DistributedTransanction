@@ -40,7 +40,6 @@ public class OrderController : ControllerBase
             try
             {
                 await commander.Execute();
-
                 tx.Complete();
             }
             catch (Exception ex)
@@ -50,6 +49,8 @@ public class OrderController : ControllerBase
                 return false;
             }
         }
+
+        Thread.Sleep(3000);
 
         return true;
     }
@@ -70,7 +71,6 @@ public class OrderController : ControllerBase
             try
             {
                 await commander.Compensate();
-
                 tx.Complete();
             }
             catch (Exception ex)
@@ -80,6 +80,8 @@ public class OrderController : ControllerBase
                 return false;
             }
         }
+
+        Thread.Sleep(3000);
 
         return true;
     }
