@@ -33,13 +33,15 @@ public class OrderController : ControllerBase
             IsolationLevel = IsolationLevel.ReadCommitted
         };
 
+        var commander = new DistributedTransaction(command, _transactionRepository);
+
         using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
-        {
-            var commander = new DistributedTransaction(command, _transactionRepository);
+        {    
             try
             {
                 await commander.Execute();
+                Thread.Sleep(1000);
                 tx.Complete();
             }
             catch (Exception ex)
@@ -50,7 +52,6 @@ public class OrderController : ControllerBase
             }
         }
 
-        Thread.Sleep(3000);
 
         return true;
     }
@@ -81,7 +82,7 @@ public class OrderController : ControllerBase
             }
         }
 
-        Thread.Sleep(3000);
+        Thread.Sleep(1000);
 
         return true;
     }

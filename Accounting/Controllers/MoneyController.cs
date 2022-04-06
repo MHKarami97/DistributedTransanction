@@ -33,10 +33,11 @@ public class MoneyController : ControllerBase
             IsolationLevel = IsolationLevel.ReadCommitted
         };
 
+        var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
+
         using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
         {
-            var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
 
             try
             {
@@ -51,7 +52,7 @@ public class MoneyController : ControllerBase
             }
         }
 
-        Thread.Sleep(3000);
+        Thread.Sleep(1000);
 
         return true;
     }
@@ -72,7 +73,7 @@ public class MoneyController : ControllerBase
             return false;
         }
 
-        Thread.Sleep(3000);
+        Thread.Sleep(1000);
 
         return true;
     }

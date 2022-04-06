@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Oms/Oms.csproj", "Oms/"]
+COPY ["Saga.V2/Saga.V2.csproj", "Saga.V2/"]
 RUN dotnet restore "Oms/Oms.csproj"
 COPY . .
 WORKDIR "/src/Oms"
