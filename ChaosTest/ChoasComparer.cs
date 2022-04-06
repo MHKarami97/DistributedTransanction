@@ -2,11 +2,11 @@
 
 namespace ChaosTest;
 
-class ChaosEventComparer : IEqualityComparer<ChaosEvent>
+internal class ChaosEventComparer : IEqualityComparer<ChaosEvent>
 {
-    public bool Equals(ChaosEvent x, ChaosEvent y)
+    public bool Equals(ChaosEvent? x, ChaosEvent? y)
     {
-        return x.TimeStampUtc.Equals(y.TimeStampUtc);
+        return x != null && y != null && x.TimeStampUtc.Equals(y.TimeStampUtc);
     }
     public int GetHashCode(ChaosEvent obj)
     {
