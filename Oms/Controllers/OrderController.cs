@@ -26,7 +26,8 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<bool> Make(MakeModel model)
     {
-        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId, _serviceProvider) ;
+        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId,
+            _serviceProvider);
 
         var options = new TransactionOptions
         {
@@ -35,23 +36,23 @@ public class OrderController : ControllerBase
 
         var commander = new DistributedTransaction(command, _transactionRepository);
 
-        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
-                   TransactionScopeAsyncFlowOption.Enabled))
-        {    
-            try
-            {
-                await commander.Execute();
-                Thread.Sleep(1000);
-                tx.Complete();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
+        using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+            TransactionScopeAsyncFlowOption.Enabled);
+        try
+        {
+            await commander.Execute();
 
-                return false;
-            }
+            //todo just for test
+            Thread.Sleep(1000); 
+
+            tx.Complete();
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
 
+            return false;
+        }
 
         return true;
     }
@@ -86,6 +87,4 @@ public class OrderController : ControllerBase
 
         return true;
     }
-    
-    
 }
