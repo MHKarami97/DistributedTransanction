@@ -41,7 +41,6 @@ public class OrderController : ControllerBase
             try
             {
                 await commander.Execute();
-                Thread.Sleep(1000);
                 tx.Complete();
             }
             catch (Exception ex)
@@ -81,8 +80,6 @@ public class OrderController : ControllerBase
                 return false;
             }
         }
-
-        Thread.Sleep(1000);
 
         return true;
     }

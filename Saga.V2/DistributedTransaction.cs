@@ -60,7 +60,7 @@ namespace Saga.V2
             {
                 await Command.Do();
                 State = TransactionState.Committed;
-                _repository.UpdateState(CollaborationId, State);
+                _repository.UpdateByCollaborationId(this);
             }
             catch
             {
@@ -70,6 +70,7 @@ namespace Saga.V2
                 using (var tx = new TransactionScope(TransactionScopeOption.Suppress,
                            TransactionScopeAsyncFlowOption.Enabled))
                 {
+                    State = TransactionState.Failed;
                     _repository.UpdateState(CollaborationId, State);
 
                     tx.Complete();

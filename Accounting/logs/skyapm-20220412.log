@@ -1,0 +1,98 @@
+2022-04-12 17:29:52.940 +04:30 [Accounting] [Information] SkyApm.InstrumentStartup : Initializing ...
+2022-04-12 17:29:52.985 +04:30 [Accounting] [Information] SkyApm.Service.RegisterService : Loaded instrument service [SkyApm.Service.RegisterService].
+2022-04-12 17:29:52.994 +04:30 [Accounting] [Information] SkyApm.Service.PingService : Loaded instrument service [SkyApm.Service.PingService].
+2022-04-12 17:29:52.994 +04:30 [Accounting] [Information] SkyApm.Service.SegmentReportService : Loaded instrument service [SkyApm.Service.SegmentReportService].
+2022-04-12 17:29:52.994 +04:30 [Accounting] [Information] SkyApm.Service.CLRStatsService : Loaded instrument service [SkyApm.Service.CLRStatsService].
+2022-04-12 17:29:52.994 +04:30 [Accounting] [Information] SkyApm.Sampling.SimpleCountSamplingInterceptor : Loaded instrument service [SkyApm.Sampling.SimpleCountSamplingInterceptor].
+2022-04-12 17:29:52.994 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectService : Loaded instrument service [SkyApm.Transport.Grpc.ConnectService].
+2022-04-12 17:29:53.107 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [Microsoft.AspNetCore].
+2022-04-12 17:29:53.107 +04:30 [Accounting] [Information] SkyApm.InstrumentStartup : Started SkyAPM .NET Core Agent.
+2022-04-12 17:30:03.790 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:30:08.029 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:30:18.072 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:30:23.153 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:30:33.201 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:30:38.016 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:30:48.056 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:30:53.011 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:30:57.940 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [Microsoft.EntityFrameworkCore].
+2022-04-12 17:30:58.588 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:30:58.946 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:30:59.110 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:31:04.001 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:31:19.156 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:33:47.573 +04:30 [Accounting] [Information] SkyApm.InstrumentStartup : Initializing ...
+2022-04-12 17:33:47.624 +04:30 [Accounting] [Information] SkyApm.Service.RegisterService : Loaded instrument service [SkyApm.Service.RegisterService].
+2022-04-12 17:33:47.637 +04:30 [Accounting] [Information] SkyApm.Service.PingService : Loaded instrument service [SkyApm.Service.PingService].
+2022-04-12 17:33:47.637 +04:30 [Accounting] [Information] SkyApm.Service.SegmentReportService : Loaded instrument service [SkyApm.Service.SegmentReportService].
+2022-04-12 17:33:47.637 +04:30 [Accounting] [Information] SkyApm.Service.CLRStatsService : Loaded instrument service [SkyApm.Service.CLRStatsService].
+2022-04-12 17:33:47.637 +04:30 [Accounting] [Information] SkyApm.Sampling.SimpleCountSamplingInterceptor : Loaded instrument service [SkyApm.Sampling.SimpleCountSamplingInterceptor].
+2022-04-12 17:33:47.637 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectService : Loaded instrument service [SkyApm.Transport.Grpc.ConnectService].
+2022-04-12 17:33:47.716 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [Microsoft.AspNetCore].
+2022-04-12 17:33:47.717 +04:30 [Accounting] [Information] SkyApm.InstrumentStartup : Started SkyAPM .NET Core Agent.
+2022-04-12 17:33:57.868 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:34:02.679 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:34:12.704 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:34:17.650 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:34:24.063 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [Microsoft.EntityFrameworkCore].
+2022-04-12 17:34:24.746 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:34:25.009 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:34:25.059 +04:30 [Accounting] [Information] SkyApm.Diagnostics.TracingDiagnosticProcessorObserver : Loaded diagnostic listener [SqlClientDiagnosticListener].
+2022-04-12 17:34:27.679 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:34:32.649 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:34:42.674 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:34:47.663 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:34:57.688 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:35:02.664 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:35:12.691 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:35:17.677 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].
+2022-04-12 17:35:27.710 +04:30 [Accounting] [Error] SkyApm.Transport.Grpc.ConnectionManager : Connect server timeout.
+System.Threading.Tasks.TaskCanceledException: Reached deadline.
+   at Grpc.Core.Channel.WaitForStateChangedAsync(ChannelState lastObservedState, Nullable`1 deadline)
+   at Grpc.Core.Channel.ConnectAsync(Nullable`1 deadline)
+   at SkyApm.Transport.Grpc.ConnectionManager.ConnectAsync()
+2022-04-12 17:35:32.667 +04:30 [Accounting] [Information] SkyApm.Transport.Grpc.ConnectionManager : Shutdown connection[192.168.0.1:11800].

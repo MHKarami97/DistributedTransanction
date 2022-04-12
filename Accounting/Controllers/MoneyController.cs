@@ -52,8 +52,6 @@ public class MoneyController : ControllerBase
             }
         }
 
-        Thread.Sleep(1000);
-
         return true;
     }
 
@@ -72,8 +70,6 @@ public class MoneyController : ControllerBase
 
             return false;
         }
-
-        Thread.Sleep(1000);
 
         return true;
     }

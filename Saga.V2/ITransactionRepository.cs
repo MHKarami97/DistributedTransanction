@@ -5,6 +5,7 @@
         DistributedTransaction GetTransactionByCollaborationId(int collaborationId);
         DistributedTransaction GetTransactionById(int id);
         int SaveState(DistributedTransaction transaction);
+        int UpdateByCollaborationId(DistributedTransaction transaction);
         int UpdateState(int collaborationId, TransactionState state);
     }
 }

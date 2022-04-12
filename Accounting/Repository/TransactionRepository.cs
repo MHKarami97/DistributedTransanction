@@ -1,4 +1,5 @@
 ﻿using Accounting.Context;
+using Microsoft.EntityFrameworkCore;
 using Saga.V2;
 
 namespace Accounting.Repository
@@ -45,6 +46,24 @@ namespace Accounting.Repository
             _context.Attach(model);
             _context.SaveChanges();
             return model.Id;
+        }
+
+        public int UpdateByCollaborationId(DistributedTransaction transaction)
+        {
+            var model = _context.Set<DistributedTransactionModel>()
+                .FirstOrDefault(x => x.CollaborationId == transaction.CollaborationId);
+
+            if (model is null)
+            {
+                throw new NullReferenceException("Transaction Not Found");
+            }
+
+            var newModel = new DistributedTransactionModel(transaction);
+            model.State = newModel.State;
+            model.CommandType = newModel.CommandType;
+            model.CommandBody = newModel.CommandBody;
+
+            return _context.SaveChanges();
         }
 
         public int UpdateState(int collaborationId, TransactionState state)

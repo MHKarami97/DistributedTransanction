@@ -50,7 +50,7 @@ namespace Oms.Commands
 
             request.RequestState = RequestState.Completed;
 
-            context.Update(request);
+            context.Update(request); // Insert for performance
             await context.SaveChangesAsync();
         }
 
