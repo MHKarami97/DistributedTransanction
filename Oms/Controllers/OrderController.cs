@@ -26,7 +26,8 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<bool> Make(MakeModel model)
     {
-        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId, _serviceProvider) ;
+        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId,
+            _serviceProvider);
 
         var options = new TransactionOptions
         {
@@ -47,10 +48,8 @@ public class OrderController : ControllerBase
             {
                 _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
 
-                return false;
-            }
+            return false;
         }
-
 
         return true;
     }

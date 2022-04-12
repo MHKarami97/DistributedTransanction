@@ -7,7 +7,7 @@ var builder = WebApplication
     .CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>();
-builder.Services.AddHostedService<TranactionRecoveryWorker>();
+builder.Services.AddHostedService<TransactionRecoveryWorker>();
 
 var app = builder.Build();
 

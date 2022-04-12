@@ -73,8 +73,7 @@ namespace Saga.V2
                     State = TransactionState.Failed;
                     _repository.UpdateState(CollaborationId, State);
 
-                    tx.Complete();
-                }
+                tx.Complete();
 
                 throw;
             }
@@ -94,15 +93,14 @@ namespace Saga.V2
             }
             catch
             {
-                using (var tx = new TransactionScope(TransactionScopeOption.Suppress,
-                           TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    State = TransactionState.Failed;
+                using var tx = new TransactionScope(TransactionScopeOption.Suppress,
+                    TransactionScopeAsyncFlowOption.Enabled);
 
-                    _repository.UpdateState(CollaborationId, State);
+                State = TransactionState.Failed;
 
-                    tx.Complete();
-                }
+                _repository.UpdateState(CollaborationId, State);
+
+                tx.Complete();
 
                 throw;
             }
