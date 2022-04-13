@@ -73,9 +73,10 @@ namespace Saga.V2
                     State = TransactionState.Failed;
                     _repository.UpdateState(CollaborationId, State);
 
-                tx.Complete();
+                    tx.Complete();
 
-                throw;
+                    throw;
+                }
             }
         }
 

@@ -38,17 +38,19 @@ public class OrderController : ControllerBase
 
         using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
-        {    
+        {
             try
             {
                 await commander.Execute();
+                Thread.Sleep(1000);
                 tx.Complete();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
 
-            return false;
+                return false;
+            }
         }
 
         return true;

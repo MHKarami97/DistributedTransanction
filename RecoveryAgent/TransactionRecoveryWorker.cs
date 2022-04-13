@@ -29,6 +29,7 @@ internal class TransactionRecoveryWorker : BackgroundService
         var suspendedTransactions = _context.Set<DistributedTransactionModel>()
             .Where(t => t.StartDateTime < DateTime.Now.AddSeconds(-TimeoutInSeconds)
                         && (t.State == TransactionState.Active || t.State == TransactionState.Failed))
+            .Take(10)
             .ToList();
 
         foreach (var transaction in suspendedTransactions)

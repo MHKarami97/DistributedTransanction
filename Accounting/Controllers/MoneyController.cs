@@ -58,19 +58,26 @@ public class MoneyController : ControllerBase
     [HttpPost("Undo/{collaborationId:int}")]
     public async Task<bool> Undo(int collaborationId)
     {
-        var tx = _transactionRepository.GetTransactionByCollaborationId(collaborationId);
-
         try
         {
-            await tx.Compensate();
+            var tx = _transactionRepository.GetTransactionByCollaborationId(collaborationId);
+
+            try
+            {
+                await tx.Compensate();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", collaborationId);
+
+                return false;
+            }
+
+            return true;
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", collaborationId);
-
-            return false;
+            return true;
         }
-
-        return true;
     }
 }

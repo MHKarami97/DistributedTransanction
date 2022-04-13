@@ -1,5 +1,4 @@
 ﻿using Accounting.Context;
-using Microsoft.EntityFrameworkCore;
 using Saga.V2;
 
 namespace Accounting.Repository

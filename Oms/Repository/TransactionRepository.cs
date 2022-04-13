@@ -51,7 +51,6 @@ namespace Oms.Repository
         public int UpdateByCollaborationId(DistributedTransaction transaction)
         {
             var model = _context.Set<DistributedTransactionModel>()
-                .AsNoTracking()
                 .FirstOrDefault(x => x.CollaborationId == transaction.CollaborationId);
 
             if (model is null)
@@ -66,7 +65,7 @@ namespace Oms.Repository
 
             return _context.SaveChanges();
         }
-
+       
         public int UpdateState(int collaborationId, TransactionState state)
         {
             var transaction = _context.Set<DistributedTransactionModel>()
