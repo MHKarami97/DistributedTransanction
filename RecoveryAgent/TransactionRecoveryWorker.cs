@@ -7,8 +7,8 @@ namespace RecoveryAgent;
 
 internal class TransactionRecoveryWorker : BackgroundService
 {
-    private Timer _timer;
-    private const int TimeoutInSeconds = 60;
+    private const int _timeoutInSeconds = 60;
+    private const int _delayTimeInSecond = 10;
     private readonly ApplicationDbContext _context;
 
     public TransactionRecoveryWorker(ApplicationDbContext context)
@@ -16,18 +16,20 @@ internal class TransactionRecoveryWorker : BackgroundService
         _context = context;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        stoppingToken.ThrowIfCancellationRequested();
-        _timer = new Timer(Recover, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            await Recover(cancellationToken);
 
-        return Task.CompletedTask;
+            await Task.Delay(TimeSpan.FromSeconds(_delayTimeInSecond), cancellationToken);
+        }
     }
 
-    private void Recover(object? state)
+    private async Task Recover(CancellationToken cancellationToken)
     {
         var suspendedTransactions = _context.Set<DistributedTransactionModel>()
-            .Where(t => t.StartDateTime < DateTime.Now.AddSeconds(-TimeoutInSeconds)
+            .Where(t => t.StartDateTime < DateTime.Now.AddSeconds(-_timeoutInSeconds)
                         && (t.State == TransactionState.Active || t.State == TransactionState.Failed))
             .Take(10)
             .ToList();
@@ -36,14 +38,8 @@ internal class TransactionRecoveryWorker : BackgroundService
         {
             Console.WriteLine("Undo Applied For " + transaction.Id);
 
-            HttpService.Post<bool>("http://localhost:5002/Order/Undo/" + transaction.Id)
-                .Wait();
+            await HttpService.Post<bool>("http://localhost:5002/Order/Undo/" + transaction.Id,
+                cancellationToken: cancellationToken);
         }
-    }
-
-    public override void Dispose()
-    {
-        _timer.Dispose();
-        base.Dispose();
     }
 }
