@@ -35,7 +35,7 @@ namespace Oms.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    InstrumentName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     RequestType = table.Column<int>(type: "int", nullable: false),

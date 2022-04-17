@@ -8,9 +8,9 @@ namespace Oms.Commands
 {
     public class InitialRequestCommand : TransactionalCommand
     {
-        public InitialRequestCommand(string productName, int quantity, int price, int customerId, IServiceProvider serviceProvider)
+        public InitialRequestCommand(string instrumentName, int quantity, int price, int customerId, IServiceProvider serviceProvider)
         {
-            ProductName = productName;
+            InstrumentName = instrumentName;
             Quantity = quantity;
             Price = price;
             CustomerId = customerId;
@@ -20,14 +20,14 @@ namespace Oms.Commands
         public int Price { get; }
         public int CustomerId { get; }
         public int Quantity { get; }
-        public string ProductName { get; }
+        public string InstrumentName { get; }
 
         public override async Task Do()
         {
             var request = new Request
             {
                 Price = Price,
-                ProductName = ProductName,
+                InstrumentName = InstrumentName,
                 Quantity = Quantity,
                 RequestState = RequestState.Pending,
                 RequestType = RequestType.Initial

@@ -9,7 +9,7 @@ namespace Oms.Configuration
         public void Configure(EntityTypeBuilder<Request> builder)
         {
             builder.ToTable(nameof(Request), nameof(Oms));
-            builder.Property(r => r.ProductName).HasMaxLength(256);
+            builder.Property(r => r.InstrumentName).HasMaxLength(256);
             builder.OwnsMany(p => p.Errors, t =>
             {
                 t.ToTable(nameof(RequestError), nameof(Oms));

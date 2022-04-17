@@ -38,7 +38,7 @@ namespace Oms.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
+                    b.Property<string>("InstrumentName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 

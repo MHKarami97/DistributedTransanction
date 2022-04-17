@@ -26,31 +26,151 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<bool> Make(MakeModel model)
     {
-        var command = new InitialRequestCommand(model.ProductName, model.Quantity, model.Price, model.CustomerId,
+        try
+        {
+            var command = new InitialRequestCommand(model.InstrumentName,
+                model.Quantity,
+                model.Price,
+                model.CustomerId,
+                _serviceProvider);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on make order, instrumentName: {item1} ", model.InstrumentName);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    [HttpPost]
+    public async Task<bool> Trade(TradeResponseModel model)
+    {
+        try
+        {
+            var command = new TradeResponseCommand(model.InstrumentName,
+                model.TradeQuantity,
+                model.TradePrice,
+                model.CustomerId,
+                model.OrderSide,
+                _serviceProvider);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on trade response, InstrumentName: {item1} ", model.InstrumentName);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    [HttpPost]
+    public async Task<bool> Confirmation(ConfirmationModel model)
+    {
+        var command = new ConfirmationCommand(model.InstrumentName,
+            model.Quantity,
+            model.Price,
+            model.CustomerId,
             _serviceProvider);
 
-        var options = new TransactionOptions
+        try
         {
-            IsolationLevel = IsolationLevel.ReadCommitted
-        };
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
 
-        var commander = new DistributedTransaction(command, _transactionRepository);
+            var commander = new DistributedTransaction(command, _transactionRepository);
 
-        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
-                   TransactionScopeAsyncFlowOption.Enabled))
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
         {
-            try
-            {
-                await commander.Execute();
-                Thread.Sleep(1000);
-                tx.Complete();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception on make order, ProductName: {item1} ", model.ProductName);
+            _logger.LogError(ex, "Exception on confirmation response, InstrumentName: {item1} ", model.InstrumentName);
 
-                return false;
-            }
+            return false;
+        }
+
+        return true;
+    }
+
+    [HttpPost]
+    public async Task<bool> Error(ErrorModel model)
+    {
+        var command = new ErrorCommand(model.InstrumentName,
+            model.Quantity,
+            model.Price,
+            model.CustomerId,
+            _serviceProvider);
+
+        try
+        {
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on error response, InstrumentName: {item1} ", model.InstrumentName);
+
+            return false;
         }
 
         return true;
@@ -77,43 +197,6 @@ public class OrderController : ControllerBase
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception on undo, CollaborationId: {item1}", collaborationId);
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    [HttpPost]
-    public async Task<bool> Trade(TradeResponseModel model)
-    {
-        var command = new TradeResponseCommand(model.InstrumentName,
-            model.TradeQuantity,
-            model.TradePrice,
-            model.CustomerId,
-            model.OrderSide,
-            _serviceProvider);
-
-        var options = new TransactionOptions
-        {
-            IsolationLevel = IsolationLevel.ReadCommitted
-        };
-
-        var commander = new DistributedTransaction(command, _transactionRepository);
-
-        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
-                   TransactionScopeAsyncFlowOption.Enabled))
-        {
-            try
-            {
-                await commander.Execute();
-                Thread.Sleep(1000);
-                tx.Complete();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception on trade response, InstrumentName: {item1} ", model.InstrumentName);
 
                 return false;
             }

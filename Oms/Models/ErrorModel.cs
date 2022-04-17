@@ -1,6 +1,6 @@
 ﻿namespace Oms.Models
 {
-    public class MakeModel
+    public class ErrorModel
     {
         public string InstrumentName { get; set; }
         public int Quantity { get; set; }
