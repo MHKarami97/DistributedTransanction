@@ -1,6 +1,6 @@
-﻿namespace Oms.Models;
+﻿namespace Oms.Models.Enums;
 
-public enum RequestState
+public enum ResponseState
 {
     Pending = 1,
     ClosedByError = 2,

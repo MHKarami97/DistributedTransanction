@@ -84,4 +84,41 @@ public class OrderController : ControllerBase
 
         return true;
     }
+
+    [HttpPost]
+    public async Task<bool> Trade(TradeResponseModel model)
+    {
+        var command = new TradeResponseCommand(model.InstrumentName,
+            model.TradeQuantity,
+            model.TradePrice,
+            model.CustomerId,
+            model.OrderSide,
+            _serviceProvider);
+
+        var options = new TransactionOptions
+        {
+            IsolationLevel = IsolationLevel.ReadCommitted
+        };
+
+        var commander = new DistributedTransaction(command, _transactionRepository);
+
+        using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                   TransactionScopeAsyncFlowOption.Enabled))
+        {
+            try
+            {
+                await commander.Execute();
+                Thread.Sleep(1000);
+                tx.Complete();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception on trade response, InstrumentName: {item1} ", model.InstrumentName);
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

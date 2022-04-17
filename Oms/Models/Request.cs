@@ -1,4 +1,6 @@
-﻿namespace Oms.Models;
+﻿using Oms.Models.Enums;
+
+namespace Oms.Models;
 
 public class Request
 {

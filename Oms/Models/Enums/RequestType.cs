@@ -1,4 +1,4 @@
-﻿namespace Oms.Models;
+﻿namespace Oms.Models.Enums;
 
 public enum RequestType
 {
