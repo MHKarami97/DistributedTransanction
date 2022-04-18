@@ -144,9 +144,7 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<bool> Error(ErrorModel model)
     {
-        var command = new ErrorCommand(
-            model.Amount,
-            _serviceProvider);
+        var command = new ErrorCommand( _serviceProvider);
 
         try
         {
