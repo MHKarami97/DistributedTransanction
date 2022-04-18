@@ -1,10 +1,14 @@
-﻿namespace Oms.Models
+﻿using Oms.Models.Enums;
+
+namespace Oms.Models
 {
     public class ConfirmationModel
     {
-        public string InstrumentName { get; set; }
-        public int Quantity { get; set; }
-        public int Price { get; set; }
-        public int CustomerId { get; set; }
+        public int CollaborationId { get; set; }
+        public long? RemainingBlockedAmount { get; set; }
+        public long? BlockedAmountChange { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        public RequestType RequestType { get; set; }
+        public RequestStatus RequestStatus { get; set; }
     }
 }

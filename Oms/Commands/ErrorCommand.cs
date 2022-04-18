@@ -1,30 +1,19 @@
-﻿using Oms.Context;
-using Oms.Models;
-using Oms.Models.Enums;
-using Oms.Services;
+﻿using Oms.Services;
 using Saga.V2;
 
 namespace Oms.Commands
 {
     public class ErrorCommand : TransactionalCommand
     {
-        public ErrorCommand(string instrumentName,
-            int quantity,
-            int price,
-            int customerId,
+        public ErrorCommand(
+            long amount,
             IServiceProvider serviceProvider)
         {
-            InstrumentName = instrumentName;
-            Quantity = quantity;
-            Price = price;
-            CustomerId = customerId;
+            Amount = amount;
             ServiceProvider = serviceProvider;
         }
 
-        public int Price { get; }
-        public int CustomerId { get; }
-        public int Quantity { get; }
-        public string InstrumentName { get; }
+        public long Amount { get; }
 
         public override async Task Do()
         {
