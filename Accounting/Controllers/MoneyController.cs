@@ -38,7 +38,6 @@ public class MoneyController : ControllerBase
         using (var tx = new TransactionScope(TransactionScopeOption.Required, options,
                    TransactionScopeAsyncFlowOption.Enabled))
         {
-
             try
             {
                 await commander.Execute();
@@ -50,6 +49,37 @@ public class MoneyController : ControllerBase
 
                 return false;
             }
+        }
+
+        return true;
+    }
+
+    [HttpPost("Block")]
+    public async Task<bool> Decrease(DecreaseBlockModel model)
+    {
+        try
+        {
+            var command = new DecreaseBlockCommand(model.BlockId, model.Amount, _serviceProvider);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", model.CollaborationId);
+
+            return false;
         }
 
         return true;
