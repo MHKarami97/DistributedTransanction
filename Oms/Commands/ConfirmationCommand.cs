@@ -7,6 +7,7 @@ namespace Oms.Commands
     public class ConfirmationCommand : TransactionalCommand
     {
         public ConfirmationCommand(
+            int requestId,
             long? blockedAmountChange,
             long? remainingBlockedAmount,
             OrderStatus orderStatus,
@@ -14,6 +15,7 @@ namespace Oms.Commands
             RequestStatus requestStatus,
             IServiceProvider serviceProvider)
         {
+            RequestId = requestId;
             BlockedAmountChange = blockedAmountChange;
             RemainingBlockedAmount = remainingBlockedAmount;
             OrderStatus = orderStatus;
@@ -23,6 +25,7 @@ namespace Oms.Commands
         }
 
 
+        public int RequestId { get; }
         public long? RemainingBlockedAmount { get; }
         public long? BlockedAmountChange { get; }
         public OrderStatus OrderStatus { get; }

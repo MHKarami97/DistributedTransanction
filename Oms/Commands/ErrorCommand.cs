@@ -7,17 +7,21 @@ namespace Oms.Commands
 {
     public class ErrorCommand : TransactionalCommand
     {
-        public ErrorCommand(IServiceProvider serviceProvider)
+        public ErrorCommand(int requestId,
+            IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
+            RequestId = requestId;
         }
+
+        public int RequestId { get; }
 
         public override async Task Do()
         {
             var context = ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             //todo with id pass?
-            var request = await context.FindAsync<Request>(CollaborationId);
+            var request = await context.FindAsync<Request>(RequestId);
 
             if (request == null)
             {
@@ -31,8 +35,10 @@ namespace Oms.Commands
             await context.SaveChangesAsync();
         }
 
-        public override async Task Undo()
+        public override Task Undo()
         {
+            //do nothing
+            return Task.CompletedTask;
         }
     }
 }

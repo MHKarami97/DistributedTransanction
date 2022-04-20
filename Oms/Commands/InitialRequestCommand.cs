@@ -37,19 +37,20 @@ namespace Oms.Commands
             context.Add(request);
             await context.SaveChangesAsync();
 
-            var result = await HttpService.Post<bool>("http://localhost:5000/money/block", new
+            var result = await HttpService.Post<AccountingResult>("http://localhost:5000/money/block", new
             {
                 CustomerId,
                 CollaborationId,
                 Amount = Price * Quantity,
             });
 
-            if (!result)
+            if (!result.IsSucceded)
             {
                 throw new Exception("BlockFailed");
             }
 
             request.RequestState = RequestState.Completed;
+            request.BlockCode = result.BlockCode;
 
             context.Update(request); // Insert for performance
             await context.SaveChangesAsync();

@@ -4,7 +4,7 @@ namespace Oms.Models
 {
     public class ConfirmationModel
     {
-        public int CollaborationId { get; set; }
+        public int RequestId { get; set; }
         public long? RemainingBlockedAmount { get; set; }
         public long? BlockedAmountChange { get; set; }
         public OrderStatus OrderStatus { get; set; }

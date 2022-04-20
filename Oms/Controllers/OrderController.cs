@@ -7,7 +7,7 @@ using System.Transactions;
 namespace Oms.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class OrderController : ControllerBase
 {
     private readonly ILogger<OrderController> _logger;
@@ -62,6 +62,80 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
+    public async Task<bool> Change(ChangeModel model)
+    {
+        try
+        {
+            var command = new ChangeRequestCommand(model.RequestId,
+                model.InstrumentName,
+                model.Quantity,
+                model.Price,
+                model.CustomerId,
+                _serviceProvider);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on change order, instrumentName: {item1} ", model.InstrumentName);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    [HttpPost]
+    public async Task<bool> Revoke(RevokeModel model)
+    {
+        try
+        {
+            var command = new RevokeRequestCommand(model.RequestId,
+                _serviceProvider);
+
+            var options = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted
+            };
+
+            var commander = new DistributedTransaction(command, _transactionRepository);
+
+            using var tx = new TransactionScope(TransactionScopeOption.Required, options,
+                TransactionScopeAsyncFlowOption.Enabled);
+
+            await commander.Execute();
+
+            //todo just for test
+            Thread.Sleep(1000);
+
+            tx.Complete();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception on revoke order, RequestId: {item1} ", model.RequestId);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    [HttpPost]
     public async Task<bool> Trade(TradeResponseModel model)
     {
         try
@@ -104,6 +178,7 @@ public class OrderController : ControllerBase
     public async Task<bool> Confirmation(ConfirmationModel model)
     {
         var command = new ConfirmationCommand(
+            model.RequestId,
             model.BlockedAmountChange,
             model.RemainingBlockedAmount,
             model.OrderStatus,
@@ -118,7 +193,7 @@ public class OrderController : ControllerBase
                 IsolationLevel = IsolationLevel.ReadCommitted
             };
 
-            var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
+            var commander = new DistributedTransaction(command, _transactionRepository);
 
             using var tx = new TransactionScope(TransactionScopeOption.Required, options,
                 TransactionScopeAsyncFlowOption.Enabled);
@@ -133,7 +208,7 @@ public class OrderController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception on confirmation response, CollaborationId: {item1} ",
-                model.CollaborationId);
+                model.RequestId);
 
             return false;
         }
@@ -144,7 +219,7 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<bool> Error(ErrorModel model)
     {
-        var command = new ErrorCommand( _serviceProvider);
+        var command = new ErrorCommand(model.RequestId, _serviceProvider);
 
         try
         {
@@ -153,7 +228,7 @@ public class OrderController : ControllerBase
                 IsolationLevel = IsolationLevel.ReadCommitted
             };
 
-            var commander = new DistributedTransaction(command, _transactionRepository, model.CollaborationId);
+            var commander = new DistributedTransaction(command, _transactionRepository);
 
             using var tx = new TransactionScope(TransactionScopeOption.Required, options,
                 TransactionScopeAsyncFlowOption.Enabled);
@@ -167,7 +242,7 @@ public class OrderController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Exception on error response, CollaborationId: {item1} ", model.CollaborationId);
+            _logger.LogError(ex, "Exception on error response, CollaborationId: {item1} ", command.CollaborationId);
 
             return false;
         }

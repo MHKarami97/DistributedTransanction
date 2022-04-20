@@ -24,7 +24,7 @@ public class MoneyController : ControllerBase
     }
 
     [HttpPost("Block")]
-    public async Task<bool> Block(BlockModel model)
+    public async Task<AccountingResult> Block(BlockModel model)
     {
         var command = new BlockCommand(model.CustomerId, model.Amount, _serviceProvider);
 
@@ -47,19 +47,26 @@ public class MoneyController : ControllerBase
             {
                 _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", model.CollaborationId);
 
-                return false;
+                return new AccountingResult {
+                    IsSucceded = false,
+                    BlockCode = 0
+                };
             }
         }
 
-        return true;
+        return new AccountingResult
+        {
+            IsSucceded = true,
+            BlockCode = command.BlockId
+        };
     }
 
-    [HttpPost("Block")]
-    public async Task<bool> Decrease(DecreaseBlockModel model)
+    [HttpPost("Decrease")]
+    public async Task<AccountingResult> Decrease(DecreaseBlockModel model)
     {
         try
         {
-            var command = new DecreaseBlockCommand(model.BlockId, model.Amount, _serviceProvider);
+            var command = new DecreaseBlockCommand(model.BlockCode, model.Amount, _serviceProvider);
 
             var options = new TransactionOptions
             {
@@ -79,10 +86,18 @@ public class MoneyController : ControllerBase
         {
             _logger.LogError(ex, "Exception on make order, CollaborationId: {item1} ", model.CollaborationId);
 
-            return false;
+            return new AccountingResult
+            {
+                IsSucceded = false,
+                BlockCode = model.BlockCode
+            };
         }
 
-        return true;
+        return new AccountingResult
+        {
+            IsSucceded = true,
+            BlockCode = model.BlockCode
+        };
     }
 
     [HttpPost("Undo/{collaborationId:int}")]
