@@ -64,19 +64,7 @@ namespace Saga.V2
             }
             catch
             {
-                await Command.Undo();
-                State = TransactionState.Aborted;
-
-                using (var tx = new TransactionScope(TransactionScopeOption.Suppress,
-                           TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    State = TransactionState.Failed;
-                    _repository.UpdateState(CollaborationId, State);
-
-                    tx.Complete();
-
-                    throw;
-                }
+                await Compensate();
             }
         }
 

@@ -6,9 +6,9 @@ export const options = {
     duration: '30s',
 };
 export default function () {
-    http.post("http://localhost:5002/Order",
+    http.post("http://localhost:5002/Order/Make",
         JSON.stringify({
-            productName: "Ins1",
+            instrumentName: "Ins1",
             quantity: 20,
             price: 300,
             customerId: 1
